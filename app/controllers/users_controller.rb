@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
-  before_action :authenticate_user
+  before_action :set_user, only: [:update, :destroy]
+  before_action :authenticate_user, only: [:current, :update, :destroy]
 
   def current
-    render json: current_user
+    render json: current_user, serializer: TinyUserSerializer
   end
 
   # GET /users
@@ -15,7 +15,8 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: @user
+    @user = User.find_by(username: params[:id])
+    render json: @user, serializer: ProfileSerializer, follower: current_user
   end
 
   # POST /users
@@ -51,6 +52,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.fetch(:user, {})
+      params.require(:user).permit(:email, :username, :avatar, :password, :password_confirmation)
     end
 end

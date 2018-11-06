@@ -4,4 +4,8 @@ class PostSerializer < ActiveModel::Serializer
      object.created_at.strftime("%b %e, %Y at %l:%M %p")
   end
   belongs_to :user, serializer: PostUserSerializer
+  # has_many :likes
+  attribute :likes do
+    object.likes
+  end
 end
