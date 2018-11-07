@@ -7,13 +7,12 @@ class PostsController < ApplicationController
     if params[:search]
       @posts = Post.where('title ILIKE :query OR content ILIKE :query', query: "%#{params[:search]}%").order(created_at: :desc)
     elsif current_user
-      puts "HELLO???????????????????????????????????????"
       @posts = Post.where("user_id IN (?) or user_id = ?", current_user.followings.pluck(:id), current_user.id).order(created_at: :desc)
     else
       @posts = Post.all.order(created_at: :desc)
     end
 
-    render json: {user: current_user,
+    render json: {user: ProfileSerializer.new(current_user),
       posts: ActiveModel::Serializer::CollectionSerializer.new(@posts)}
   end
 

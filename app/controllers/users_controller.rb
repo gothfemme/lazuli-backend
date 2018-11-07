@@ -8,7 +8,11 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    if params[:search]
+      @users = User.where('username ILIKE :query', query: "%#{params[:search]}%")
+    else
+      @users = User.all
+    end
 
     render json: @users
   end
