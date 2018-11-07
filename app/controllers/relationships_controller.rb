@@ -1,5 +1,6 @@
 class RelationshipsController < ApplicationController
-  before_action :set_relationship, only: [:show, :update, :destroy]
+  before_action :set_relationship, only: [:show, :update]
+  before_action :authenticate_user
 
   # GET /relationships
   def index
@@ -15,10 +16,10 @@ class RelationshipsController < ApplicationController
 
   # POST /relationships
   def create
-    @relationship = Relationship.new(relationship_params)
+    @relationship = Relationship.new(follower: current_user, followed: User.find_by(username: params[:id]))
 
     if @relationship.save
-      render json: @relationship, status: :created, location: @relationship
+      render json: @relationship, status: :created
     else
       render json: @relationship.errors, status: :unprocessable_entity
     end
@@ -35,6 +36,7 @@ class RelationshipsController < ApplicationController
 
   # DELETE /relationships/1
   def destroy
+    @relationship = Relationship.find_by(follower: current_user, followed: User.find_by(username: params[:id]))
     @relationship.destroy
   end
 

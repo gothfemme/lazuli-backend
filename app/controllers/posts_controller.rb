@@ -4,9 +4,17 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
+    if params[:search]
+      @posts = Post.where('title ILIKE :query OR content ILIKE :query', query: "%#{params[:search]}%").order(created_at: :desc)
+    elsif current_user
+      puts "HELLO???????????????????????????????????????"
+      @posts = Post.where("user_id IN (?) or user_id = ?", current_user.followings.pluck(:id), current_user.id).order(created_at: :desc)
+    else
+      @posts = Post.all.order(created_at: :desc)
+    end
 
-    render json: @posts.order(created_at: :desc)
+    render json: {user: current_user,
+      posts: ActiveModel::Serializer::CollectionSerializer.new(@posts)}
   end
 
   # GET /posts/1
