@@ -20,7 +20,14 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     @user = User.find_by(username: params[:id])
-    render json: @user, serializer: ProfileSerializer, follower: current_user
+    @posts = @user.posts.order(created_at: :desc)
+    @reblogs = @user.reblogs.includes(:post).order(created_at: :desc)
+    posts = @posts.map { |e| PostSerializer.new(e) }
+    reblogs = @reblogs.map { |e| ReblogSerializer.new(e) }
+    timeline = (posts + reblogs).sort_by{|x| x.attributes[:created_at]}.reverse
+    render json: {user: ProfileSerializer.new(@user),
+          posts: timeline}
+    # render json: @user, serializer: ProfileSerializer
   end
 
   # POST /users

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :reblogs
   resources :likes, only: [:create, :destroy]
   delete 'likes/delete' => 'likes#destroy'
   resources :posts
@@ -7,4 +8,5 @@ Rails.application.routes.draw do
   resources :users
   post 'users/:id/follow' => 'relationships#create'
   delete 'users/:id/unfollow' => 'relationships#destroy'
+  get 'dashboard/test' => 'posts#dashboard'
 end
