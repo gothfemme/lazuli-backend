@@ -1,9 +1,5 @@
 class ProfileSerializer < ActiveModel::Serializer
-  attributes :username, :avatar
-  # attribute :posts do
-  #   object.posts.order(created_at: :desc).map { |e| ProfilePostSerializer.new(e) }
-  # end
-
+  attributes :id, :username, :avatar
   attribute :follower_ids do
     object.followers.pluck :id
   end

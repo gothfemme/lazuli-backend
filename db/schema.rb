@@ -31,16 +31,6 @@ ActiveRecord::Schema.define(version: 2018_11_08_003606) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "reblogs", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_reblogs_on_post_id"
-    t.index ["user_id", "post_id"], name: "index_reblogs_on_user_id_and_post_id", unique: true
-    t.index ["user_id"], name: "index_reblogs_on_user_id"
-  end
-
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
@@ -49,6 +39,16 @@ ActiveRecord::Schema.define(version: 2018_11_08_003606) do
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
+  end
+
+  create_table "user_posts", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "post_id"
+    t.boolean "is_reblog", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_user_posts_on_post_id"
+    t.index ["user_id"], name: "index_user_posts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

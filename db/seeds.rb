@@ -22,6 +22,9 @@ posts = [
       content: "Bitters af leggings, small batch palo santo typewriter ethical flexitarian photo booth lyft VHS bespoke listicle."}
   ]
 
-  User.create(email: "k@gothfem.me", username: "gothfemme", avatar:"gothfemmeglitch1.png", password:"password", password_confirmation:"password", admin: true)
+  user = User.create(email: "k@gothfem.me", username: "gothfemme", avatar:"gothfemmeglitch1.png", password:"password", password_confirmation:"password", admin: true)
 
-  posts.each { |post| Post.create(post)}
+  posts.each { |post|
+    new_post = Post.create(post)
+    UserPost.create(post: new_post, user: user)
+  }
