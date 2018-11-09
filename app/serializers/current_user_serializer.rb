@@ -1,4 +1,4 @@
-class ProfileSerializer < ActiveModel::Serializer
+class CurrentUserSerializer < ActiveModel::Serializer
   attributes :id, :username, :avatar
 
   attribute :follower_ids do

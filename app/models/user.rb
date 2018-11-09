@@ -18,4 +18,8 @@ class User < ApplicationRecord
   validates :username, uniqueness: true, length: { maximum: 24 }
   validates :password, length: { minimum: 8 }
 
+  def reblogs
+    self.user_posts.where(is_reblog: :true).pluck(:post_id)
+  end
+
 end

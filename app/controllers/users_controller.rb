@@ -21,8 +21,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(username: params[:id])
     posts = @user.user_posts.order(created_at: :desc)
-
-    render json: { user: ProfileSerializer.new(@user), posts: ActiveModel::Serializer::CollectionSerializer.new(posts) }
+    
+    render json: { current_user: ProfileSerializer.new(current_user), user: ProfileSerializer.new(@user), posts: ActiveModel::Serializer::CollectionSerializer.new(posts) }
     # render json: @user, serializer: ProfileSerializer
   end
 

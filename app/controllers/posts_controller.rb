@@ -5,8 +5,8 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     if params[:search]
-      @posts = UserPost.joins(:post).where('is_reblog = false AND posts.title ILIKE :query OR posts.content ILIKE :query', query: "%#{params[:search]}%").order(created_at: :desc)
-    render json: {posts: ActiveModel::Serializer::CollectionSerializer.new(@posts), }
+      @posts = UserPost.joins(:post).where("posts.title ILIKE :query AND user_posts.is_reblog != 't' OR posts.content ILIKE :query AND user_posts.is_reblog != 't'", query: "%#{params[:search]}%").order(created_at: :desc)
+    render json: { posts: ActiveModel::Serializer::CollectionSerializer.new(@posts) }
     end
   end
 
