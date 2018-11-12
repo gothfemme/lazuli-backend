@@ -1,7 +1,7 @@
 class Post < ApplicationRecord
   belongs_to :user
-  has_many :likes
-  has_many :user_posts
+  has_many :likes, dependent: :destroy
+  has_many :user_posts, dependent: :destroy
 
   def reblog_count
     self.user_posts.where(is_reblog: true).count
