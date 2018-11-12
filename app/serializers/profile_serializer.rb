@@ -1,5 +1,5 @@
 class ProfileSerializer < ActiveModel::Serializer
-  attributes :id, :username, :avatar
+  attributes :id, :username, :avatar, :bio
 
   attribute :follower_ids do
     object.followers.pluck :id

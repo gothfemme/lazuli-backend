@@ -2,7 +2,12 @@ Rails.application.routes.draw do
   resources :user_posts
   resources :likes, only: [:create, :destroy]
   delete 'likes/delete' => 'likes#destroy'
-  resources :posts
+  # resources :comment_likes
+  resources :posts do
+    resources :comments
+  end
+  post '/posts/:post_id/comments/:comment_id/like' => 'comment_likes#create'
+  delete '/posts/:post_id/comments/:comment_id/unlike' => 'comment_likes#destroy'
   post 'user/token' => 'user_token#create'
   get 'users/current' => 'users#current'
   resources :users
