@@ -6,6 +6,11 @@ class UsersController < ApplicationController
     render json: current_user, serializer: TinyUserSerializer
   end
 
+  def is_valid
+    bool = !User.find_by(username: params[:username])
+    render json: {is_valid: bool}
+  end
+
   # GET /users
   def index
     if params[:search]
@@ -21,7 +26,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(username: params[:id])
     posts = @user.user_posts.order(created_at: :desc)
-    
+
     render json: { current_user: ProfileSerializer.new(current_user), user: ProfileSerializer.new(@user), posts: ActiveModel::Serializer::CollectionSerializer.new(posts) }
     # render json: @user, serializer: ProfileSerializer
   end

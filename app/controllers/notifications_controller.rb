@@ -1,7 +1,7 @@
 class NotificationsController < ApplicationController
+  before_action :authenticate_user
   def index
-
-    @notifications = User.first.notifications
+    @notifications = current_user.notifications
 
     render json: @notifications
   end
