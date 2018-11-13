@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :notifications
   resources :user_posts
   resources :likes, only: [:create, :destroy]
   delete 'likes/delete' => 'likes#destroy'
