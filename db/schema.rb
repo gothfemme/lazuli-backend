@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2018_11_12_222547) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "username"
-    t.string "avatar", default: "default_user.jpeg"
+    t.string "avatar", default: "https://firebasestorage.googleapis.com/v0/b/lazuli-d0e49.appspot.com/o/images%2Fdefault_user.jpeg?alt=media&token=84c71201-66f9-404c-943f-43eabc7be3c9"
     t.string "password_digest"
     t.boolean "admin", default: false
     t.datetime "created_at", null: false

@@ -1,3 +1,3 @@
 class TinyUserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :email, :avatar
+  attributes :id, :username, :email, :avatar, :bio
 end

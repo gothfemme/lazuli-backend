@@ -17,9 +17,9 @@ class User < ApplicationRecord
   has_many :followings, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
-  validates :email, :password, :username, presence: true
+  validates :email, :password, :username, presence: true, on: :create
   validates :username, uniqueness: true, length: { maximum: 24 }
-  validates :password, length: { minimum: 8 }
+  validates :password, length: { minimum: 8 }, on: :create
 
   def reblogs
     self.user_posts.where(is_reblog: :true).pluck(:post_id)

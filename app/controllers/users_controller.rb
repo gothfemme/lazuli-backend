@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:update, :destroy]
-  before_action :authenticate_user, only: [:current, :update, :destroy]
+  before_action :set_user, only: [:destroy]
+  before_action :authenticate_user, only: [:current, :destroy]
 
   def current
     render json: current_user, serializer: TinyUserSerializer
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
       @users = User.all
     end
 
-    render json: @users
+    render json: @users, each_serializer: TinyUserSerializer
   end
 
   # GET /users/1
@@ -42,10 +42,10 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
-      render json: @user
+    @user = User.find(current_user.id)
+    if @user.update(update_params)
+      render json: @user, serializer: TinyUserSerializer
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -63,7 +63,11 @@ class UsersController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
+    def update_params
+      params.require(:user).permit(:email, :username, :avatar, :bio)
+    end
+
     def user_params
-      params.require(:user).permit(:email, :username, :avatar, :password, :password_confirmation)
+      params.require(:user).permit(:email, :username, :avatar, :password, :password_confirmation, :bio)
     end
 end

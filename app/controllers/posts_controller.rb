@@ -17,7 +17,7 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    @post = Post.new(post_params)
+    @post = Post.new(user: current_user, title: params[:title], content: params[:content], image: params[:image])
 
     if @post.save
       @user_post = UserPost.create(user: current_user, post: @post)

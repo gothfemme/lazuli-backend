@@ -7,7 +7,7 @@ attribute :notifiable do
     when "UserPost"
       {type: "reblogged", notifier: PostUserSerializer.new(object.notifiable.user), post: TinyPostSerializer.new(object.notifiable.post)}
     when "Comment"
-      {type: "commented", notifier: PostUserSerializer.new(object.notifiable.user), post: TinyPostSerializer.new(object.notifiable.post)}
+      {type: "commented", notifier: PostUserSerializer.new(object.notifiable.commenter), post: TinyPostSerializer.new(object.notifiable.post)}
     end
   end
 end
